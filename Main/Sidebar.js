@@ -533,33 +533,38 @@ export default function Sidebar({ navigation }) {
           ),
         }}
       />
-      <Drawer.Screen
-        name="로그인"
-        options={({ route }) => ({
-          drawerLabel: () => {
-            return isLoggedIn ? null : <Text>로그인</Text>;
-          },
-        })}
-      >
-        {(props) => <Login {...props} onLogin={handleLogin} />}
-      </Drawer.Screen>
+      {!isLoggedIn && (
+        <Drawer.Screen
+          name="로그인"
+          options={({ route }) => ({
+            drawerLabel: () => {
+              return <Text>로그인</Text>;
+            },
+          })}
+        >
+          {(props) => <Login {...props} onLogin={handleLogin} />}
+        </Drawer.Screen>
+      )}
 
-      <Drawer.Screen
-        name="로그아웃"
-        options={({ route }) => ({
-          drawerLabel: () => {
-            return isLoggedIn ? (
-              <Text onPress={handleLogoutButtonPress}>로그아웃</Text>
-            ) : null;
-          },
-          headerShown: false,
-        })}
-      >
-        {() => {
-          return null;
-        }}
-      </Drawer.Screen>
-      <Drawer.Screen name="회원가입" component={CreateId} />
+      {isLoggedIn && (
+        <Drawer.Screen
+          name="로그아웃"
+          options={({ route }) => ({
+            drawerLabel: () => {
+              return <Text onPress={handleLogoutButtonPress}>로그아웃</Text>;
+            },
+            headerShown: false,
+          })}
+        >
+          {() => {
+            return null;
+          }}
+        </Drawer.Screen>
+      )}
+
+      {!isLoggedIn && (
+        <Drawer.Screen name="회원가입" component={CreateId} />
+      )}
     </Drawer.Navigator>
   );
 }
